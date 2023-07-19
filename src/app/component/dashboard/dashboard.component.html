@@ -1,0 +1,126 @@
+<div class="titlebar" align="center"><h1>Hospital Management System</h1></div>
+  <div>
+  <form [formGroup]="employeeFormGroup" style="display: block;">
+  <input placeholder="Patient name" formControlName="employee_name" type="text" /><br/>
+  <input placeholder="age" formControlName="age" type="number" /><br/>
+  <input placeholder="address" formControlName="addressof" type="text" /><br/>
+  <input placeholder="Date" formControlName="dateof" type="date" /><br/>
+  <input placeholder="problem" formControlName="problem" type="text" /><br/>
+  
+  <input name="button" class="custom_button" type="button" value="Save" (click)="saveAction()" />
+  <input name="button" class="custom_button" type="button" value="Fetch" (click)="fetchAction()" />
+  <input type="button"  class="btn2"  (click)="onreset()" value="Reset" />
+  
+  
+  </form>
+  </div>
+  
+        <div>
+          <div style="margin-top: 10px;">
+            <mat-form-field>
+              <mat-label>Search user...</mat-label>
+              <input matInput (keyup)="applyFilter($event)" placeholder="Ex. vasanth" #input>
+            </mat-form-field>
+            <form [formGroup]="employeeFormGroup">
+    <table mat-table [dataSource]="this.service.dataSource" class="mat-elevation-z8">
+  
+  
+      <!-- Position Column -->
+      <ng-container matColumnDef="Name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let employee"> 
+          <div *ngIf="employee.isEdit">
+            <input style="background-color: black; color: white;" 
+             matInput formControlName="employee_name" value=" {{employee['employee_name']}}">
+          </div>
+          <div *ngIf="!employee.isEdit">
+          {{employee['employee_name']}}
+          </div>
+        </td>
+      </ng-container>
+    
+      <!-- Name Column -->
+      <ng-container matColumnDef="Age">
+        <th mat-header-cell *matHeaderCellDef> Age </th>
+        <td mat-cell *matCellDef="let employee">
+          <div *ngIf="employee.isEdit">
+          <input style="background-color: black; color: white;"
+          matInput formControlName="phone" value=" {{employee['phone']}}">
+          </div>
+          <div *ngIf="!employee.isEdit">
+            {{employee['age']}}
+            </div>
+           </td>
+      </ng-container>
+    
+      <!-- Weight Column -->
+      <ng-container matColumnDef="Address">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let employee"> 
+          <div *ngIf="employee.isEdit">
+          <input style="background-color: black; color: white;"
+           matInput formControlName="address" value=" {{employee['address']}}">
+          </div>
+          <div *ngIf="!employee.isEdit">
+            {{employee['addressof']}}
+          </div>
+        </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="Date">
+        <th mat-header-cell *matHeaderCellDef> Date </th>
+        <td mat-cell *matCellDef="let employee">
+          <div *ngIf="employee.isEdit">
+          <input style="background-color: black; color: white;"
+           matInput formControlName="date" value=" {{employee['date']}} ">
+          </div>
+          <div *ngIf="!employee.isEdit">
+            {{employee['dateof']}}
+            </div>
+         </td>
+      </ng-container>
+  
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="Problem">
+        <th mat-header-cell *matHeaderCellDef> Problem </th>
+        <td mat-cell *matCellDef="let employee">
+          <div *ngIf="employee.isEdit">
+          <input  style="background-color: black; color: white;"
+          matInput formControlName="amount" value=" {{employee['amount']}}">
+          </div>
+          <div *ngIf="!employee.isEdit">
+            {{employee['problem']}}
+            </div>
+           </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="Actions">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+        <td mat-cell *matCellDef="let employee">
+          <div class="action-btn" *ngIf="employee.isEdit">
+            <button mat-icon-button color="primary" (click)="saveAction()">
+              <mat-icon>save</mat-icon>
+              </button>
+              <button mat-icon-button color="primary" (click)="printBill()">
+                <mat-icon>print</mat-icon>
+                </button>
+              <button mat-icon-button color="primary" (click)="employee.isEdit = false">
+                <mat-icon>cancel</mat-icon>
+                </button>
+            </div>
+            <div *ngIf="!employee.isEdit">
+            <button mat-icon-button color="primary" (click)="onEdit(employee); editAction(employee)">
+              <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button  color="warn" (click)="deleteAction(employee)">
+                <mat-icon>delete</mat-icon>
+              </button>
+          </div>
+        </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let employees; columns: displayedColumns;"></tr>
+    </table></form>
+  
+  
